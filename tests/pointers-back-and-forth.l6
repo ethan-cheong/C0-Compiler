@@ -1,0 +1,9 @@
+//test return 100
+
+int main() {
+  int* x = alloc(int);
+  *x = 100;
+  void* y = (void*) x;
+  int* z = (int*) y;
+  return *z;
+}

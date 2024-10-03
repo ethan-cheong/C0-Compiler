@@ -1,0 +1,10 @@
+//test return 0
+
+// "Casting should not affect the null pointer"
+int main() {
+  int* p = NULL;
+  void* q = (void*) p;
+  char* r = (char*) q;
+  assert(r == NULL);
+  return 0;
+}

@@ -1,0 +1,294 @@
+let%expect_test "Test parsing of an empty program" =
+  let lexbuf =
+    Lexing.from_string "int main() {int x = 3; int y = -x + 4; return x + y * x / 3; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect
+    {|
+    int main {
+    int x = 3;
+    int y = (-(x) + 4);
+    return (x + ((y * x) / 3));
+    }
+  |}]
+;;
+
+let%expect_test "Test parsing of a simple while loop" =
+  let lexbuf =
+    Lexing.from_string "int main() {int x = 3; while (x < 5) {x++;} return x; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+  |}]
+;;
+
+let%expect_test "Test parsing of a simple for loop" =
+  let lexbuf =
+    Lexing.from_string
+      "int main() {int x = 3; for (int i = 0; i < 10; x += j) {x += 1;} return x; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+  |}]
+;;
+
+let%expect_test "Test parsing of simple if" =
+  let lexbuf =
+    Lexing.from_string "int main() {int x; if (true) {x = 5;} else {x = 2;} return x; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+    }
+  |}]
+;;
+
+(* TODO compare against test cases for operator precedence *)
+let%expect_test "Test parsing of a simple ternary operator" =
+  let lexbuf = Lexing.from_string "int main() {int x = (1 > 2) ? 3 : 4; return x; }" in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+    }
+  |}]
+;;
+
+(* Be sure to compare against test cases for operator precedence *)
+let%expect_test "Test parsing of a simple ternary operator, no brackets" =
+  let lexbuf = Lexing.from_string "int main() {int x = 1 > 2 ? 3 : 4; return x; }" in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+    }
+  |}]
+;;
+
+let%expect_test "Test parsing of blocks" =
+  let lexbuf =
+    Lexing.from_string
+      "int main() {int a; {int b; b = 5; a = b;} int b; b = a; return b; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+    }
+  |}]
+;;
+
+let%expect_test "Test parsing of blocks" =
+  let lexbuf =
+    Lexing.from_string "int main() {int a = 0; a++; a += 1; int b = 1; b--; return b; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+    }
+  |}]
+;;
+
+let%expect_test "Test parsing of blocks" =
+  let lexbuf =
+    Lexing.from_string
+      "int main()\n\
+      \    {\n\
+      \      int ret = 0xffffffff;\n\
+      \      {\n\
+      \        int x = 0;\n\
+      \        x++;\n\
+      \        ret += x;\n\
+      \      }\n\
+      \      {\n\
+      \        int x = 0X2;\n\
+      \        ret += x;\n\
+      \      }\n\
+      \      return ret;\n\
+      \    }\n\
+      \    "
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+    }
+  |}]
+;;
+
+let%expect_test "Test parsing of postops" =
+  let lexbuf = Lexing.from_string "int main() {int a = 0; a++; b = 1; b--; return b; }" in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+  |}]
+;;
+
+let%expect_test "Test parsing of postops with -ve" =
+  let lexbuf =
+    Lexing.from_string "int main() {int a = 0; -a++; b = 1; +b--; return b; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+  |}]
+;;
+
+let%expect_test "Test parsing of typedef" =
+  let lexbuf =
+    Lexing.from_string
+      "typedef bool bully; int main() {int a = 0; a++; b = 1; b--; return b; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+  |}]
+;;
+
+let%expect_test "Test parsing of fn decl" =
+  let lexbuf =
+    Lexing.from_string
+      "int fn (int a, int b, bool d, bool e); int main() {int a = 0; a++; b = 1; b--; \
+       return b; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+  |}]
+;;
+
+let%expect_test "Test parsing of function" =
+  let lexbuf =
+    Lexing.from_string
+      "int fn (int a, int b, bool c) {return 0;} int main() {int a = 0; a++; b = 1; b--; \
+       return b; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+  |}]
+;;
+
+let%expect_test "Test parsing of function call" =
+  let lexbuf =
+    Lexing.from_string
+      "int fn (int a, int b, bool c) {return 0;} \n\
+      \      int main() {\n\
+      \        fn(5);\n\
+      \       return b; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+  |}]
+;;
+
+let%expect_test "Test parsing of assert" =
+  let lexbuf =
+    Lexing.from_string
+      "int fn (int a, int b, bool c) {return 0;} \n\
+      \  int main() {\n\
+      \  assert fn(5);\n\
+       return; }"
+  in
+  let program_l3 = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  print_endline (Ast.Print.pp_program_l3 program_l3);
+  [%expect {|
+  |}]
+;;
+
+let%expect_test "Test elaboration invalid while" =
+  let lexbuf =
+    Lexing.from_string
+      "int main()\n\
+      \  {\n\
+      \   int i;\n\
+      \   int x = 0;\n\
+      \  \n\
+      \   for (i = 0; i < 10; x += j) {\n\
+      \       int j = 2;\n\
+      \       i++;\n\
+      \   }\n\
+      \  \n\
+      \   return 20;\n\
+      \  }"
+  in
+  let program = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  let expanded = Elaborate.elaborate program in
+  print_endline (Ast.Print.pp_program_l3 expanded);
+  [%expect {|
+    |}]
+;;
+
+let%expect_test "Test order of ops" =
+  let lexbuf =
+    Lexing.from_string
+      "int main() {\n\
+      \        int a = 8 * 1 - 4 + 7 / 4 * 9 - 3 + 0;\n\
+      \        return a;\n\
+      \    }"
+  in
+  let program = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  let expanded = Elaborate.elaborate program in
+  print_endline (Ast.Print.pp_program_l3 expanded);
+  [%expect {|
+    |}]
+;;
+
+let%expect_test "Test elaboration of postops" =
+  let lexbuf = Lexing.from_string "int main() {int a = 0; a++; b = 1; b--; return b; }" in
+  let program = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  let expanded = Elaborate.elaborate program in
+  print_endline (Ast.Print.pp_program_l3 expanded);
+  [%expect {|
+    |}]
+;;
+
+let%expect_test "Test invalid for loop step statement" =
+  let lexbuf =
+    Lexing.from_string "int main() {for (int i = 0; i < 5; int j) {j = 5; } return 0; }"
+  in
+  let program = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  let expanded = Elaborate.elaborate program in
+  print_endline (Ast.Print.pp_program_l3 expanded);
+  [%expect {|
+    |}]
+;;
+
+let%expect_test "Test main as ident" =
+  let lexbuf =
+    Lexing.from_string
+      "int main(){\n\
+      \      int a = 1;\n\
+      \      if (true?false:true?true:true) return 1;\n\
+      \      return 0;}"
+  in
+  let program = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  let expanded = Elaborate.elaborate program in
+  print_endline (Ast.Print.pp_program_l3 expanded);
+  [%expect {|
+    |}]
+;;
+
+let%expect_test "Test order of ops" =
+  let lexbuf =
+    Lexing.from_string
+      "int main() {\n\
+      \        int a = 8 * 1 - 4 + 7 / 4 * 9 - 3 + 0;\n\
+      \        return a;\n\
+      \    }"
+  in
+  let program = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  let expanded = Elaborate.elaborate program in
+  print_endline (Ast.Print.pp_program_l3 expanded);
+  [%expect {|
+    |}]
+;;
+
+let%expect_test "Test elaboration of postops" =
+  let lexbuf = Lexing.from_string "int main() {int a = 0; a++; b = 1; b--; return b; }" in
+  let program = C0_parser.program_l3 C0_lexer.initial lexbuf in
+  let expanded = Elaborate.elaborate program in
+  print_endline (Ast.Print.pp_program_l3 expanded);
+  [%expect {|
+    |}]
+;;

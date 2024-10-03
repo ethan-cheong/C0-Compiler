@@ -1,0 +1,10 @@
+//test return 1;
+
+int main() {
+  char *cs2 = alloc(char);
+  char *cs3 = alloc(char);
+  *cs2 = 'o';
+  *cs3 = 'p';
+  assert(*cs2 == 'o');
+  return 1;
+}

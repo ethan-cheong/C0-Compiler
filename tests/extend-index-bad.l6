@@ -1,0 +1,8 @@
+//test error
+
+// Index should not be used outside of forall or exists.
+int main() {
+  int x = 0;
+  //@ assert \index == 0;
+  return 0;
+}

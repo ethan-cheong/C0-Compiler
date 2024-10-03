@@ -1,0 +1,14 @@
+//test error
+
+int main() {
+  int[] A = alloc_array(int, 5);
+  int i = 0;
+
+  while (i < 5) {
+    A[i] = i;
+    i++;
+  }
+
+  \forall {A} (\element == \index);
+  return 0;
+}

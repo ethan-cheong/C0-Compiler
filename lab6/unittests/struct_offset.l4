@@ -1,0 +1,9 @@
+struct s {
+  int *p;
+  int x;
+};
+
+
+int main() {
+  return 0;
+}

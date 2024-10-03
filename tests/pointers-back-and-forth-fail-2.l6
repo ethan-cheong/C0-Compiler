@@ -1,0 +1,16 @@
+//test memerror 
+
+// Ensure that the mapping from types to tags is global 
+
+void* create_pointer() {
+  bool* x = alloc(bool);
+  *x = true;
+  return (void*) x;
+}
+
+
+int main() {
+  void* y = create_pointer();
+  int* z = (int*) y;
+  return *z;
+}

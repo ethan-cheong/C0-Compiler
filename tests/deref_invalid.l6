@@ -1,0 +1,8 @@
+//test error
+
+int main() { 
+  int *x = alloc(int);
+	int *y = alloc(int);
+	(void *) x = y;
+  return 0;
+}

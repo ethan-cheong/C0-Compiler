@@ -1,0 +1,13 @@
+//test return 0
+
+// Use case for index: check last 2 elements of the array
+int main() {
+  int[] A = alloc_array(int, 10);
+  
+  A[9] = 1;
+  A[8] = 0;
+
+  //@assert \forall {A} ((\index < \length(A) - 2) ? (\element == 0) : true);
+  //@assert \exists {A} ((\index >= \length(A) - 2) ? (\element == 1): false);
+  return 0;
+}

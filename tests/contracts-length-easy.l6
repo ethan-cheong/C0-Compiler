@@ -1,0 +1,7 @@
+//test return 0
+
+int main() {
+  char[] arr = alloc_array(char, 100);
+  //@assert \length(arr) == 100;
+  return 0;
+}

@@ -1,0 +1,17 @@
+//test memerror
+
+// we initially thought this should pass, but the c1 reference compiler gives
+// a pointer untagging error. 
+
+struct s {
+	void *s;
+};
+
+int main () {
+	int* x = alloc(int);
+	int ******y = alloc(int*****);
+	void *z = (void *) y;
+	void **a = (void **)z;
+	*a;
+	return 0;
+}

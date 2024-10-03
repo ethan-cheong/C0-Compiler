@@ -1,0 +1,7 @@
+//test error
+
+int main() {
+  int x = 1;
+  /*@ requires x == 0; @*/
+  return 0;
+}

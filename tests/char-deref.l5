@@ -1,0 +1,9 @@
+//test typecheck
+
+int main() {
+
+  char *a = alloc(char);
+  string s = "";
+  append_string(s, a);
+  return string_length(s);
+}

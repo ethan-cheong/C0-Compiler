@@ -1,0 +1,2 @@
+void append_string(string s, char *a);
+int string_length(string s);

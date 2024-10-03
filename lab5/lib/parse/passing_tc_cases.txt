@@ -1,0 +1,22 @@
+// The following typechecks
+struct t {
+};
+
+typedef struct t y;
+
+struct y {
+    
+};
+
+int main() {
+    return 0;
+}
+
+typedef int s;
+int f (s[]* x) {
+return 2;
+}
+
+int main () {
+return 0;
+}

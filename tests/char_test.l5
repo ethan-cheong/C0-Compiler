@@ -1,0 +1,9 @@
+//test return 1;
+
+int main() {
+  char[] cs = alloc_array(char, 5);
+  cs[2] = 'o';
+  cs[3] = 'p';
+  assert(cs[2] == 'o');
+  return 1;
+}

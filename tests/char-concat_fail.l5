@@ -1,0 +1,9 @@
+//test error
+
+int main() {
+  char a = 'a';
+  char b = 'b';
+  char c = 'c';
+  string s = a + b + c;
+  return 0;
+}

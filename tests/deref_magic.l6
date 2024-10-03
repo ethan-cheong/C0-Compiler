@@ -1,0 +1,7 @@
+//test return 5
+
+int main() { 
+    void * x = (void *) (alloc(int));
+	  *(int *) x = 5;
+    return *(int *)x;
+}

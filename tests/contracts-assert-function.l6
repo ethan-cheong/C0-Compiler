@@ -1,0 +1,12 @@
+//test error
+
+// Assert can't be used to annotate a function body
+int help(int n) 
+//@assert n >= 0;
+{
+  return n; 
+}
+
+int main() {
+  return help(0);
+}

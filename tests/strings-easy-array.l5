@@ -1,0 +1,11 @@
+//test return 0
+
+// Minimal example segfaulting 
+int main() {
+  string[] ss = alloc_array(string, 1);
+  ss[0] = "AAAAA";
+  if (string_equal(ss[0], "AAAAA")) {
+    return 0;
+  } 
+  return 1;
+}

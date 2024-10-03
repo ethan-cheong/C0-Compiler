@@ -1,0 +1,22 @@
+//test return 0;
+
+// usage of forall and exists in requires and ensures
+
+void modify_arr(int [] arr) 
+// Check that all even-indexed elements are 1 and all odd-indexed elements are 0
+//@requires \forall {arr} (\index % 2 == 0 ? \element == 1 : true);
+//@requires \forall {arr} (\index % 2 == 1 ? \element == 0 : true);
+// Check that after the function finishes there is a non-1 even-indexed element
+//@ensures \exists {arr} (\index % 2 == 0 ? \element == 0 : false);
+{
+  arr[4] = 0;
+}
+
+int main() {
+  int [] arr = alloc_array(int, 100);
+  for (int i = 0; i < 100; i = i + 2) {
+    arr[i] = 1;
+  }
+  modify_arr(arr);
+  return 0;
+}

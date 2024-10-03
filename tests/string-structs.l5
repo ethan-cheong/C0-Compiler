@@ -1,0 +1,13 @@
+//test return -1
+
+struct s {
+  string s1;
+  string s2;
+};
+
+int main() {
+  struct s *strs = alloc(struct s);
+  strs->s1 = "ABCDE";
+  strs->s2 = "abcde";
+  return string_compare(strs->s1, strs->s2);
+}

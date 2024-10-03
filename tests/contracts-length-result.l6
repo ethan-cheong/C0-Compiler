@@ -1,0 +1,12 @@
+//test return 5;
+
+int fn(int []a)
+//@ ensures \result == 5; @requires \length(a) == 6;
+ {
+  return 5;
+}
+
+int main() {
+  int []a = alloc_array(int, 6);
+  return fn(a);
+}

@@ -1,0 +1,25 @@
+//test return 22
+
+int binary_search(string s, int len, char target) {
+    int left = 0;
+    int right = len - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (string_charat(s, mid) == target) {
+            return mid;
+        } else if (string_charat(s, mid) < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return -1;
+}
+
+int main() {
+  string s = "#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  return binary_search(s, string_length(s), '9');
+}

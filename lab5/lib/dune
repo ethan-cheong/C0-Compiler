@@ -1,0 +1,18 @@
+(library
+ (name compiler)
+ (libraries
+  core
+  cmdliner
+  yojson
+  core_kernel
+  core_kernel.pairing_heap
+  ocamlgraph)
+ (inline_tests)
+ (preprocess
+  (pps ppx_jane ppx_expect)))
+
+; makes subdirs not be their own module/library
+
+(include_subdirs unqualified)
+
+(dirs :standard \)

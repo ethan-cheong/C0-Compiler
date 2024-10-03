@@ -1,0 +1,15 @@
+//test return 9
+
+
+int main() {
+  string []s_arr = alloc_array(string, 10);
+  int ind = 0;
+
+  for (int i = 0; i < 10; i++) {
+    if (string_compare(s_arr[i], s_arr[ind]) >= 0) {
+      ind = i;
+    }
+  }
+
+  return ind;
+}

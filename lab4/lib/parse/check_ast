@@ -1,0 +1,58 @@
+decl(bool, x,
+  seq(assign(x,
+    ((5 < (10 + 6)) && (50 <= ((6 * 20) - 99)))),
+    seq(return ((x ? 1 : 0)),
+      Nop))
+)
+
+
+int main() {
+  int x = 5;
+  int y = (x > 0) ? ((x == 5) ? true : 1) : 0;
+  return y;
+}
+
+
+decl(int, n,
+  decl(int, m,
+    decl(int, b,
+      seq(
+        assign(n, 254),
+        seq(
+          assign(m,1),
+          seq(
+            seq(
+              assign(b,0),
+              while((n > 0),
+                seq(
+                  seq(
+                    assign(b, (m + b)),
+                    Nop),
+                  assign(n, (n / 2))))),
+            seq(
+              return(b), 
+              Nop))))
+)
+)
+)
+
+
+decl(int, i,
+  decl(int, x,
+    seq(
+      assign(x, 0),
+      seq(
+        seq(
+          assign(i, 0),
+          while((i < 10),
+            seq(
+              decl(int, j,
+                seq(
+                  assign(j, 2),
+                  seq(
+                    assign(i, (i + 1)),
+                    Nop))),
+              assign(x, (x + j))))),
+        seq(
+          return(20), 
+          Nop)))))

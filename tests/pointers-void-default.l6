@@ -1,0 +1,10 @@
+//test return 0
+
+// "The null pointer is the default value for type void*".
+int main() {
+  void*[] p = alloc_array(void*, 10);
+  for (int i=0; i<10; i++){
+    assert(p[i] == NULL);
+  }
+  return 0;
+}

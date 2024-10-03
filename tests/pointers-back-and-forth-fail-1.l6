@@ -1,0 +1,11 @@
+//test memerror
+
+// This is a pointer untagging fail. 
+
+int main() {
+  bool* x = alloc(bool);
+  *x = true;
+  void* y = (void*) x;
+  int* z = (int*) y;
+  return *z;
+}

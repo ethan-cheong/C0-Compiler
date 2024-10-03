@@ -1,0 +1,17 @@
+//test return 0
+
+// Simple use of forall in loop invariants
+
+int main() {
+  int[] arr= alloc_array(int, 100);
+
+  for (int i=0; i<99; i++) 
+  //@loop_invariant \exists {arr} (\element == 0);
+  {
+    arr[i] = 100;
+  }
+
+  //@assert (arr[99] == 0);
+  return 0;
+
+}

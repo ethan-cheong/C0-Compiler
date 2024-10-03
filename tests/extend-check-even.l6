@@ -1,0 +1,14 @@
+//test abort
+
+int main() {
+  int[] A = alloc_array(int, 10000);
+  
+  for (int i=0; i<10000; i++) {
+    A[i] = i;
+  }
+
+  // Check if there exists an even-indexed element that is odd
+  //@assert \exists{A} (\index % 2 == 0 ? \element % 2 == 1 : false);
+
+  return 0;
+}

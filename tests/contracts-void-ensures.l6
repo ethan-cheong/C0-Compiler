@@ -1,0 +1,13 @@
+//test error
+
+// \result can't be used with a void function
+void help(int n)
+//@ensures \result == n;
+{
+  n;
+}
+
+int main() {
+  help(1);
+  return 0;
+}
